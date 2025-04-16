@@ -9,11 +9,12 @@ namespace TestProject1;
 public class CoffeeServiceTest
 {
     private readonly Mock<TimeProvider> timeProviderMock = new();
+    private readonly Mock<IWeatherService> weatherServiceMock = new();
     private readonly CoffeeService service;
 
     public CoffeeServiceTest()
     {
-        service = new CoffeeService(timeProviderMock.Object);
+        service = new CoffeeService(timeProviderMock.Object, weatherServiceMock.Object);
     }
 
     [Fact]
@@ -22,6 +23,7 @@ public class CoffeeServiceTest
         //Arrange
         var testDateTime = new DateTimeOffset(2025, 3, 1, 10, 0, 0, TimeSpan.Zero);
         timeProviderMock.Setup(t => t.GetUtcNow()).Returns(testDateTime);
+        weatherServiceMock.Setup(w => w.IsAboveThirty(It.IsAny<DateTimeOffset>())).Returns(false);
 
         //Act
         var result = service.BrewCoffee();
@@ -38,6 +40,7 @@ public class CoffeeServiceTest
         //Arrange
         var testDateTime = new DateTimeOffset(2025, 4, 1, 10, 0, 0, TimeSpan.Zero);
         timeProviderMock.Setup(t => t.GetUtcNow()).Returns(testDateTime);
+        weatherServiceMock.Setup(w => w.IsAboveThirty(It.IsAny<DateTimeOffset>())).Returns(false);
 
         //Act
         var result = service.BrewCoffee();
@@ -56,6 +59,7 @@ public class CoffeeServiceTest
         //Arrange
         var testDateTime = new DateTimeOffset(2025, 5, 1, 10, 0, 0, TimeSpan.Zero);
         timeProviderMock.Setup(t => t.GetUtcNow()).Returns(testDateTime);
+        weatherServiceMock.Setup(w => w.IsAboveThirty(It.IsAny<DateTimeOffset>())).Returns(false);
 
         //Act
         for (int i = 0; i < count - 1; i++)
@@ -68,5 +72,21 @@ public class CoffeeServiceTest
         //Assert
         var okResult = Assert.IsType<StatusCodeHttpResult>(result.GetType().GetProperty("Result")?.GetValue(result));
         Assert.Equal(503, okResult.StatusCode);
+    }
+
+    [Fact]
+    public void BrewCoffee_AboveThirty()
+    {
+        //Arrange
+        var testDateTime = new DateTimeOffset(2025, 3, 1, 10, 0, 0, TimeSpan.Zero);
+        timeProviderMock.Setup(t => t.GetUtcNow()).Returns(testDateTime);
+        weatherServiceMock.Setup(w => w.IsAboveThirty(It.IsAny<DateTimeOffset>())).Returns(true);
+
+        //Act
+        var result = service.BrewCoffee();
+
+        //Assert
+        var okResult = Assert.IsType<Ok<Coffee>>(result.GetType().GetProperty("Result")?.GetValue(result));
+        Assert.Equal("Your refreshing iced coffee is ready", okResult.Value?.Message);
     }
 }

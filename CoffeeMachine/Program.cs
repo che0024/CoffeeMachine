@@ -17,6 +17,7 @@ public class Program
 
         //
         builder.Services.AddSingleton(TimeProvider.System);
+        builder.Services.AddSingleton<IWeatherService, WeatherService>();
         builder.Services.AddScoped<ICoffeeService, CoffeeService>();
 
         var app = builder.Build();
@@ -40,37 +41,40 @@ public interface ICoffeeService
 
 public class CoffeeService : ICoffeeService
 {
-    private readonly TimeProvider timeProvider;
-    private int counter = 0;
+    private readonly TimeProvider _timeProvider;
+    private readonly IWeatherService _weatherService;
+    private int _counter = 0;
 
-    public CoffeeService(TimeProvider timeProvider)
+    public CoffeeService(TimeProvider timeProvider, IWeatherService weatherService)
     {
-        this.timeProvider = timeProvider;
+        _timeProvider = timeProvider;
+        _weatherService = weatherService;
     }
 
     public Results<Ok<Coffee>, StatusCodeHttpResult> BrewCoffee()
     {
-        counter++;
+        _counter++;
 
-        var dateTimeUtc = timeProvider.GetUtcNow();
-        var dateTimeLocal = dateTimeUtc.ToLocalTime().ToString("s", System.Globalization.CultureInfo.InvariantCulture);
+        var dateTimeUtc = _timeProvider.GetUtcNow();
+        var dateTimeLocal = dateTimeUtc.ToLocalTime();
 
         if (dateTimeUtc.Month.Equals(4) && dateTimeUtc.Day.Equals(1))
         {
             return TypedResults.StatusCode(418);
         }
 
-        if (counter % 5 == 0)
+        if (_counter % 5 == 0)
         {
             return TypedResults.StatusCode(503);
         }
 
         var coffee = new Coffee()
         {
-            Message = "Your Piping hot coffee is ready",
-            Prepared = dateTimeLocal
+            Message = _weatherService.IsAboveThirty(dateTimeLocal) ? "Your refreshing iced coffee is ready" : "Your piping hot coffee is ready",
+            Prepared = dateTimeLocal.ToString("s", System.Globalization.CultureInfo.InvariantCulture)
         };
 
         return TypedResults.Ok(coffee);
     }
 }
+
