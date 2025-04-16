@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeMachine", "CoffeeMachine\CoffeeMachine.csproj", "{5532E0EC-B6C2-4AF9-8BE3-23F4E55B78DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{B9BF75FC-8972-4710-AA17-35F26D40E367}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeMachine.Test", "TestProject1\CoffeeMachine.Test.csproj", "{B9BF75FC-8972-4710-AA17-35F26D40E367}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5532E0EC-B6C2-4AF9-8BE3-23F4E55B78DE} = {5532E0EC-B6C2-4AF9-8BE3-23F4E55B78DE}
 	EndProjectSection
