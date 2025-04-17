@@ -16,8 +16,9 @@ public class Program
         builder.Services.AddAuthorization();
 
         //
+        builder.Services.AddHttpClient();
         builder.Services.AddSingleton(TimeProvider.System);
-        builder.Services.AddSingleton<IWeatherService, WeatherService>();
+        builder.Services.AddScoped<IWeatherService, WeatherService>();
         builder.Services.AddScoped<ICoffeeService, CoffeeService>();
 
         var app = builder.Build();
@@ -70,7 +71,7 @@ public class CoffeeService : ICoffeeService
 
         var coffee = new Coffee()
         {
-            Message = _weatherService.IsAboveThirty(dateTimeLocal) ? "Your refreshing iced coffee is ready" : "Your piping hot coffee is ready",
+            Message = _weatherService.IsAboveThirty() ? "Your refreshing iced coffee is ready" : "Your piping hot coffee is ready",
             Prepared = dateTimeLocal.ToString("s", System.Globalization.CultureInfo.InvariantCulture)
         };
 

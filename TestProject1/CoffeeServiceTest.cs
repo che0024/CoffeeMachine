@@ -23,7 +23,7 @@ public class CoffeeServiceTest
         //Arrange
         var testDateTime = new DateTimeOffset(2025, 3, 1, 10, 0, 0, TimeSpan.Zero);
         timeProviderMock.Setup(t => t.GetUtcNow()).Returns(testDateTime);
-        weatherServiceMock.Setup(w => w.IsAboveThirty(It.IsAny<DateTimeOffset>())).Returns(false);
+        weatherServiceMock.Setup(w => w.IsAboveThirty()).Returns(false);
 
         //Act
         var result = service.BrewCoffee();
@@ -40,7 +40,7 @@ public class CoffeeServiceTest
         //Arrange
         var testDateTime = new DateTimeOffset(2025, 4, 1, 10, 0, 0, TimeSpan.Zero);
         timeProviderMock.Setup(t => t.GetUtcNow()).Returns(testDateTime);
-        weatherServiceMock.Setup(w => w.IsAboveThirty(It.IsAny<DateTimeOffset>())).Returns(false);
+        weatherServiceMock.Setup(w => w.IsAboveThirty()).Returns(false);
 
         //Act
         var result = service.BrewCoffee();
@@ -59,7 +59,7 @@ public class CoffeeServiceTest
         //Arrange
         var testDateTime = new DateTimeOffset(2025, 5, 1, 10, 0, 0, TimeSpan.Zero);
         timeProviderMock.Setup(t => t.GetUtcNow()).Returns(testDateTime);
-        weatherServiceMock.Setup(w => w.IsAboveThirty(It.IsAny<DateTimeOffset>())).Returns(false);
+        weatherServiceMock.Setup(w => w.IsAboveThirty()).Returns(false);
 
         //Act
         for (int i = 0; i < count - 1; i++)
@@ -80,7 +80,7 @@ public class CoffeeServiceTest
         //Arrange
         var testDateTime = new DateTimeOffset(2025, 3, 1, 10, 0, 0, TimeSpan.Zero);
         timeProviderMock.Setup(t => t.GetUtcNow()).Returns(testDateTime);
-        weatherServiceMock.Setup(w => w.IsAboveThirty(It.IsAny<DateTimeOffset>())).Returns(true);
+        weatherServiceMock.Setup(w => w.IsAboveThirty()).Returns(true);
 
         //Act
         var result = service.BrewCoffee();
