@@ -72,7 +72,7 @@ public class CoffeeService : ICoffeeService
         var coffee = new Coffee()
         {
             Message = _weatherService.IsAboveThirty() ? "Your refreshing iced coffee is ready" : "Your piping hot coffee is ready",
-            Prepared = dateTimeLocal.ToString("s", System.Globalization.CultureInfo.InvariantCulture)
+            Prepared = dateTimeLocal.ToString("yyyy-MM-ddTHH:mm:sszzz")
         };
 
         return TypedResults.Ok(coffee);

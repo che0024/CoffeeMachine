@@ -31,7 +31,7 @@ public class CoffeeServiceTest
         //Assert
         var okResult = Assert.IsType<Ok<Coffee>>(result.GetType().GetProperty("Result")?.GetValue(result));
         Assert.Equal("Your piping hot coffee is ready", okResult.Value?.Message);
-        Assert.Equal(testDateTime.ToLocalTime().ToString("s", System.Globalization.CultureInfo.InvariantCulture), okResult.Value?.Prepared);
+        Assert.Equal(testDateTime.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:sszzz"), okResult.Value?.Prepared);
     }
 
     [Fact]
@@ -88,5 +88,6 @@ public class CoffeeServiceTest
         //Assert
         var okResult = Assert.IsType<Ok<Coffee>>(result.GetType().GetProperty("Result")?.GetValue(result));
         Assert.Equal("Your refreshing iced coffee is ready", okResult.Value?.Message);
+        Assert.Equal(testDateTime.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:sszzz"), okResult.Value?.Prepared);
     }
 }
