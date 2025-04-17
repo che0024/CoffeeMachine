@@ -53,7 +53,7 @@ public class CoffeeService : ICoffeeService
         counter++;
 
         var dateTimeUtc = timeProvider.GetUtcNow();
-        var dateTimeLocal = dateTimeUtc.ToLocalTime().ToString("s", System.Globalization.CultureInfo.InvariantCulture);
+        var dateTimeLocal = dateTimeUtc.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:sszzz");
 
         if (dateTimeUtc.Month.Equals(4) && dateTimeUtc.Day.Equals(1))
         {
@@ -67,7 +67,7 @@ public class CoffeeService : ICoffeeService
 
         var coffee = new Coffee()
         {
-            Message = "Your Piping hot coffee is ready",
+            Message = "Your piping hot coffee is ready",
             Prepared = dateTimeLocal
         };
 
